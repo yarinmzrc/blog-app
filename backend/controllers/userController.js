@@ -27,7 +27,7 @@ export const getUserDataByToken = async (req, res) => {
       };
       res.json(userDetailsToSend);
     } else {
-      res.status(401).send("Not Authorized");
+      res.send("Not Authorized");
     }
   } catch (err) {
     res.status(400).send({ message: "Error" });

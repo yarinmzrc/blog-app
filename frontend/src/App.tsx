@@ -10,7 +10,7 @@ import { Loader } from "./components/Loader";
 
 function App() {
   const dispatch = useAppDispatch();
-  const { data, isSuccess, isLoading } = useGetUserDetailsByTokenQuery();
+  const { data, isSuccess, isLoading, error } = useGetUserDetailsByTokenQuery();
 
   useEffect(() => {
     if (isSuccess) {
@@ -20,13 +20,11 @@ function App() {
     }
   }, [isSuccess]);
 
-  if (isLoading) return <Loader />;
-
   return (
     <div className="App flex flex-col">
       <Navbar />
       <div className="container flex-grow items-center justify-center">
-        <AppRoutes />
+        {isLoading ? <Loader /> : <AppRoutes />}
       </div>
       <Footer />
     </div>

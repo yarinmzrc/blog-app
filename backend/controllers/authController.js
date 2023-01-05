@@ -30,12 +30,3 @@ export const loginUser = async (req, res) => {
     res.status(400).send({ message: err.message });
   }
 };
-
-export const logOutUser = async (req, res) => {
-  res.clearCookie("jwt");
-  res.redirect("/");
-};
-
-export const authUser = async (req, res) => {
-  console.log(req.cookies.token);
-};
