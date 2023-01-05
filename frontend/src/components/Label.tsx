@@ -1,9 +1,4 @@
-import { ReactNode } from "react";
-
-interface TLabel {
-  htmlFor: string;
-  children: ReactNode;
-}
+import { TLabel } from "../constants/interfaces";
 
 export const Label = ({ htmlFor, children }: TLabel) => {
   return (

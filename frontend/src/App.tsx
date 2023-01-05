@@ -1,18 +1,34 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
-import { SignUp } from "./pages/SignUp";
 import { Navbar } from "./components/Navbar";
-import { Login } from "./pages/Login";
+import { Footer } from "./components/Footer";
+import { AppRoutes } from "./routes";
+import { useAppDispatch } from "./redux/hooks/hooks";
+import { setUser } from "./redux/features/authSlice";
+import { useGetUserDetailsByTokenQuery } from "./redux/reducers/authApi";
+import { useEffect } from "react";
+import { Loader } from "./components/Loader";
 
 function App() {
+  const dispatch = useAppDispatch();
+  const { data, isSuccess, isLoading } = useGetUserDetailsByTokenQuery();
+
+  useEffect(() => {
+    if (isSuccess) {
+      if (data?.token && data.user) {
+        dispatch(setUser({ user: data?.user, token: data?.token }));
+      }
+    }
+  }, [isSuccess]);
+
+  if (isLoading) return <Loader />;
+
   return (
-    <div className="App">
+    <div className="App flex flex-col">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<h1>Home Page</h1>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/sign-up" element={<SignUp />} />
-      </Routes>
+      <div className="container flex-grow items-center justify-center">
+        <AppRoutes />
+      </div>
+      <Footer />
     </div>
   );
 }

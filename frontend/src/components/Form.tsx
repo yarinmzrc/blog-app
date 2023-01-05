@@ -1,9 +1,4 @@
-import { ReactNode } from "react";
-
-interface TForm {
-  handleOnSubmit: () => void;
-  children: ReactNode;
-}
+import { TForm } from "../constants/interfaces";
 
 export const Form = ({ handleOnSubmit, children }: TForm) => {
   return (

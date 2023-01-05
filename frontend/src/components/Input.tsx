@@ -1,12 +1,4 @@
-import { FormEvent } from "react";
-
-interface TInput {
-  placeholder: string;
-  type: string;
-  id: string;
-  value: string;
-  onChange: (e: FormEvent<HTMLInputElement>) => void;
-}
+import { TInput } from "../constants/interfaces";
 
 export const Input = ({ placeholder, type, id, value, onChange }: TInput) => {
   return (

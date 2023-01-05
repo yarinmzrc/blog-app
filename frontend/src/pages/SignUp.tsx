@@ -1,22 +1,36 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { signUpUser } from "../api/user";
+import { FormEvent, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Form } from "../components/Form";
 import { Input } from "../components/Input";
 import { Label } from "../components/Label";
+import { useSignUpMutation } from "../redux/reducers/authApi";
 
 export const SignUp = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [signUp, { error, isSuccess }] = useSignUpMutation();
+  const navigate = useNavigate();
 
-  const handleSignUp = async () => {
-    await signUpUser({
-      email: "yarin@test.com",
-      password: "1234",
-      name: "yarin",
-    });
+  const handleSignUp = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!name || !email || !password) {
+      return;
+    }
+    await signUp({ email, name, password });
+    setName("");
+    setEmail("");
+    setPassword("");
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/login");
+    }
+    if (error) {
+      alert(error);
+    }
+  }, [isSuccess, error]);
 
   return (
     <div className="p-10 flex flex-col justify-center items-center m-auto">
@@ -53,7 +67,7 @@ export const SignUp = () => {
           />
         </div>
         <button
-          type="button"
+          type="submit"
           className="inline-block px-8 py-3 mt-3 border-2 border-grey-800 text-grey-800 font-medium text-xs leading-tight uppercase rounded-xl hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
         >
           Submit
