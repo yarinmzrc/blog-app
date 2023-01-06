@@ -15,6 +15,10 @@ export interface TInput {
   onChange: (e: FormEvent<HTMLInputElement>) => void;
 }
 
+export interface TButton {
+  buttonText: string;
+}
+
 export interface TLabel {
   htmlFor: string;
   children: ReactNode;

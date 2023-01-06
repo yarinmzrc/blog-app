@@ -12,22 +12,16 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-export const getUserDataByToken = async (req, res) => {
+export const getUser = async (req, res) => {
   try {
-    const bearerToken = req.headers["authorization"];
-    if (bearerToken == undefined) {
-      res.status(400).send("not required");
-    }
-    const token = bearerToken.split(" ")[1];
-    const userDetails = await jwt.decode(token, process.env.JWT_SECRET);
-    if (userDetails) {
-      const userDetailsToSend = {
-        user: { name: userDetails.user.name, email: userDetails.user.email },
-        token,
-      };
-      res.json(userDetailsToSend);
-    } else {
-      res.send("Not Authorized");
+    const { name, email, _id } = req.user;
+    const token = req.token;
+    const userData = {
+      user: { name, email, _id },
+      token,
+    };
+    if (userData) {
+      res.json(userData);
     }
   } catch (err) {
     res.status(400).send({ message: "Error" });

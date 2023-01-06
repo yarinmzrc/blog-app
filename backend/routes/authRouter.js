@@ -8,6 +8,4 @@ authRouter.post("/sign-up", signUpUser);
 
 authRouter.post("/login", loginUser);
 
-authRouter.get("/auth", requireAuth);
-
 export default authRouter;

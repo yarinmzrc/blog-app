@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BLOG_APP_LOCAL_STORAGE_PREFIX } from "../../constants/constants";
 import { userInterface, userState } from "../../constants/interfaces";
-import { authApi } from "../reducers/authApi";
+import { authApi } from "../api/authApi";
 import type { RootState } from "../store/store";
 
 // Define the initial state using that type

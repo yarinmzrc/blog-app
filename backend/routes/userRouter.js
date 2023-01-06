@@ -3,13 +3,13 @@ import {
   getAllUsers,
   addUser,
   deleteUser,
-  getUserDataByToken,
+  getUser,
 } from "../controllers/userController.js";
 const userRouter = express.Router();
 
 userRouter.get("/", getAllUsers);
 
-userRouter.get("/get-user-by-token", getUserDataByToken);
+userRouter.get("/get-user", getUser);
 
 userRouter.delete("/:userId", deleteUser);
 

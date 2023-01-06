@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRouter.js";
 import postRouter from "./routes/postRouter.js";
 import authRouter from "./routes/authRouter.js";
+import { requireAuth } from "./middlewares/authMiddleware.js";
 
 dotenv.config();
 mongoose.set("strictQuery", false);
@@ -52,5 +53,5 @@ app.listen(port, () => {
 });
 
 app.use(authRouter);
-app.use("/users", userRouter);
-app.use("/posts", postRouter);
+app.use("/users", requireAuth, userRouter);
+app.use("/posts", requireAuth, postRouter);

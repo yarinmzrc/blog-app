@@ -1,10 +1,10 @@
 import { Navigate } from "react-router-dom";
 import { Loader } from "../components/Loader";
 import { TProtectedRoute } from "../constants/interfaces";
-import { useRequireUserAuthQuery } from "../redux/reducers/authApi";
+import { useGetUserDetailsByTokenQuery } from "../redux/api/authApi";
 
 export const ProtectedRoute = ({ children }: TProtectedRoute) => {
-  const { isSuccess, error, isLoading } = useRequireUserAuthQuery();
+  const { isSuccess, error, isLoading } = useGetUserDetailsByTokenQuery();
 
   if (isLoading) return <Loader />;
 

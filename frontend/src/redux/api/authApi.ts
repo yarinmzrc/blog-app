@@ -51,9 +51,8 @@ export const authApi = createApi({
       query: () => "auth",
     }),
     getUserDetailsByToken: builder.query<userState, void>({
-      query: () => "users/get-user-by-token",
+      query: () => "users/get-user",
     }),
-    //get-user-by-token
   }),
 });
 
