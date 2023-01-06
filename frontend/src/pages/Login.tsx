@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form } from "../components/Form";
 import { Input } from "../components/Input";
 import { Label } from "../components/Label";
-import { useAppDispatch } from "../redux/hooks/hooks";
-import { setUser } from "../redux/features/authSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
+import { selectAuth, setUser } from "../redux/features/authSlice";
 import { useLoginMutation } from "../redux/reducers/authApi";
 import { Loader } from "../components/Loader";
 
@@ -12,22 +12,29 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [login, { isLoading, data, isSuccess }] = useLoginMutation();
+  const { user } = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     await login({ email, password });
-    navigate("/dashboard");
   };
 
   useEffect(() => {
     if (isSuccess) {
       if (data?.token && data.user) {
         dispatch(setUser({ user: data?.user, token: data?.token }));
+        navigate("/dashboard");
       }
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user]);
 
   return isLoading ? (
     <Loader />
