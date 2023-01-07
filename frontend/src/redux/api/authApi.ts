@@ -17,7 +17,6 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: LOCAL_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
-      // By default, if we have a token in the store, let's use that for authenticated requests
       const user =
         (getState() as RootState).auth.token ||
         JSON.parse(

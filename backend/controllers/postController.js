@@ -7,7 +7,7 @@ export const getAllPosts = async (req, res) => {
       res.json(allPosts);
     }
   } catch (err) {
-    res.status(400).send({ message: "Error" });
+    res.send(err.message);
   }
 };
 
@@ -25,7 +25,7 @@ export const addPost = async (req, res) => {
       }
     }
   } catch (err) {
-    res.status(400).send({ message: "Error" });
+    res.send(err.message);
   }
 };
 
@@ -37,6 +37,6 @@ export const deletePost = async (req, res) => {
       res.json(post);
     }
   } catch (err) {
-    res.status(400).send({ message: "Error" });
+    res.send(err.message);
   }
 };

@@ -16,7 +16,7 @@ export const signUpUser = async (req, res) => {
     const user = await User.create({ name, email, password });
     res.status(201).json({ user });
   } catch (err) {
-    res.status(400).send({ message: err.message });
+    res.send(err.message);
   }
 };
 
@@ -27,6 +27,6 @@ export const loginUser = async (req, res) => {
     const token = createToken(user);
     res.status(200).send({ user, token });
   } catch (err) {
-    res.status(400).send({ message: err.message });
+    res.send(err.message);
   }
 };

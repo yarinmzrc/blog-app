@@ -1,18 +1,19 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Form } from "../components/Form";
-import { Input } from "../components/Input";
-import { Label } from "../components/Label";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
 import { selectAuth, setUser } from "../redux/features/authSlice";
 import { useLoginMutation } from "../redux/api/authApi";
+import { Form } from "../components/Form";
+import { Input } from "../components/Input";
+import { Label } from "../components/Label";
 import { Loader } from "../components/Loader";
 import { Button } from "../components/Button";
 
 export const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [login, { isLoading, data, isSuccess }] = useLoginMutation();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [login, { isLoading, data, isSuccess, error }] = useLoginMutation();
   const { user } = useAppSelector(selectAuth);
 
   const dispatch = useAppDispatch();
@@ -20,7 +21,14 @@ export const Login = () => {
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    await login({ email, password });
+    try {
+      const loginResult = await login({ email, password });
+      if ("error" in loginResult) {
+        throw loginResult.error;
+      }
+    } catch (err) {
+      console.log({ err });
+    }
   };
 
   useEffect(() => {
@@ -38,9 +46,13 @@ export const Login = () => {
     }
   }, [user]);
 
-  return isLoading ? (
-    <Loader />
-  ) : (
+  useEffect(() => {
+    if (error && "data" in error) {
+      setErrorMessage(error.data as string);
+    }
+  }, [error]);
+
+  return (
     <div className="p-10 flex flex-col justify-center items-center m-auto">
       <Form handleOnSubmit={handleLogin}>
         <h2 className="text-2xl font-medium text-emerald-700">Login</h2>
@@ -64,7 +76,8 @@ export const Login = () => {
             onChange={(e) => setPassword((e.target as HTMLInputElement).value)}
           />
         </div>
-        <Button buttonText="Submit" />
+        <p>{errorMessage}</p>
+        <Button>{isLoading ? <Loader /> : "Submit"}</Button>
         <Link className="underline text-sm" to="/sign-up">
           Don&apos;t have an account? go to sign up.
         </Link>

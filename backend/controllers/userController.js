@@ -8,7 +8,7 @@ export const getAllUsers = async (req, res) => {
       res.json(allUsers);
     }
   } catch (err) {
-    res.status(400).send({ message: "Error" });
+    res.send(err.message);
   }
 };
 
@@ -24,7 +24,7 @@ export const getUser = async (req, res) => {
       res.json(userData);
     }
   } catch (err) {
-    res.status(400).send({ message: "Error" });
+    res.send(err.message);
   }
 };
 
@@ -43,7 +43,7 @@ export const addUser = async (req, res) => {
       }
     }
   } catch (err) {
-    res.status(400).send({ message: err.message });
+    res.send(err.message);
   }
 };
 
@@ -55,6 +55,6 @@ export const deleteUser = async (req, res) => {
       res.json(user);
     }
   } catch (err) {
-    res.status(400).send({ message: "Error" });
+    res.send(err.message);
   }
 };

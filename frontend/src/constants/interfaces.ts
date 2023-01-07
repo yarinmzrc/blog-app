@@ -16,7 +16,7 @@ export interface TInput {
 }
 
 export interface TButton {
-  buttonText: string;
+  children: ReactNode;
 }
 
 export interface TLabel {

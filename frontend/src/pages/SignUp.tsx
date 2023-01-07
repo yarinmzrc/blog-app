@@ -4,13 +4,14 @@ import { Button } from "../components/Button";
 import { Form } from "../components/Form";
 import { Input } from "../components/Input";
 import { Label } from "../components/Label";
+import { Loader } from "../components/Loader";
 import { useSignUpMutation } from "../redux/api/authApi";
 
 export const SignUp = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [signUp, { error, isSuccess }] = useSignUpMutation();
+  const [signUp, { isLoading, error, isSuccess }] = useSignUpMutation();
   const navigate = useNavigate();
 
   const handleSignUp = async (e: FormEvent) => {
@@ -29,7 +30,7 @@ export const SignUp = () => {
       navigate("/login");
     }
     if (error) {
-      alert(error);
+      console.log(error);
     }
   }, [isSuccess, error]);
 
@@ -67,7 +68,7 @@ export const SignUp = () => {
             onChange={(e) => setPassword((e.target as HTMLInputElement).value)}
           />
         </div>
-        <Button buttonText="Submit" />
+        <Button>{isLoading ? <Loader /> : "Submit"}</Button>
         <Link className="underline text-sm" to="/login">
           Already have an account? go to login
         </Link>

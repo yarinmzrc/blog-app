@@ -24,7 +24,7 @@ export const Navbar = () => {
 
   const userExistsInfo = (
     <div className="flex gap-x-6">
-      <p>Hi, {user?.name}</p>
+      <p>{user?.name}</p>
       <button className="hover:text-emerald-600" onClick={handleLogOut}>
         Logout
       </button>
@@ -32,7 +32,7 @@ export const Navbar = () => {
   );
 
   return (
-    <div className="w-full bg-white  flex justify-between items-center p-8 px-10 mb-3 sm:px-40">
+    <div className="w-full bg-white sticky top-0 z-30 flex justify-between items-center p-8 px-10 mb-3 shadow-md shadow-slate-50 sm:px-40">
       <Link to="/">
         <p className="text-2xl font-medium italic text-emerald-600 hover:text-emerald-700">
           Blogs.

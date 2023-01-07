@@ -4,7 +4,6 @@ import { userInterface, userState } from "../../constants/interfaces";
 import { authApi } from "../api/authApi";
 import type { RootState } from "../store/store";
 
-// Define the initial state using that type
 export const initialState: userState = {
   user: null,
   token: null,
@@ -12,7 +11,6 @@ export const initialState: userState = {
 
 export const authSlice = createSlice({
   name: "auth",
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
     setCredentials: (
@@ -59,7 +57,6 @@ export const authSlice = createSlice({
 
 export const { setUser, setCredentials, logOutUser } = authSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
 export const selectAuth = (state: RootState) => state.auth;
 
 export default authSlice.reducer;
