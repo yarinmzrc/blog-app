@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Loader } from "../components/Loader";
 import { useGetPostQuery } from "../redux/api/authApi";
-import { setError } from "../redux/features/authSlice";
-import { useAppDispatch } from "../redux/hooks/hooks";
+import { selectAuth, setError } from "../redux/features/authSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
 import { formatDate } from "../utils";
 
 export const Post = () => {
@@ -15,6 +15,7 @@ export const Post = () => {
     error,
   } = useGetPostQuery(postId || "");
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector(selectAuth);
 
   useEffect(() => {
     if (isError && error && "data" in error) {
@@ -26,10 +27,13 @@ export const Post = () => {
     <Loader />
   ) : (
     <div className="w-full h-full flex flex-col gap-10 py-10 px-40">
-      <div className="flex gap-8">
-        <p>{post?.userId.name}</p>
-        <p>{post?.category}</p>
-        <p>{formatDate(post?.createdAt || "")}</p>
+      <div className="flex justify-between">
+        <div className="flex gap-8">
+          <p>{post?.userId.name}</p>
+          <p>{post?.category}</p>
+          <p>{formatDate(post?.createdAt || "")}</p>
+        </div>
+        {user && user._id === post?.userId._id ? <button>Edit</button> : ""}
       </div>
       <h1 className="text-4xl font-bold">{post?.title}</h1>
       <img

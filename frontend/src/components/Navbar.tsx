@@ -19,7 +19,7 @@ export const Navbar = () => {
 
   const handleLogOut = () => {
     dispatch(logOutUser());
-    navigate("/login");
+    navigate("/");
   };
 
   const userExistsInfo = (

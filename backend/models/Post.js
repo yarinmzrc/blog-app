@@ -14,7 +14,7 @@ const PostSchema = new Schema({
   },
   category: {
     type: String,
-    enum: ["PROGRAMMING", "DATA", "LIFESTYLE"],
+    enum: ["Programming", "Data", "Lifestyle"],
     required: [true, "The post category field is required"],
   },
   createdAt: {

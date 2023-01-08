@@ -29,6 +29,7 @@ export interface TLabel {
 export interface userInterface {
   name?: string;
   email?: string;
+  _id?: string;
 }
 
 export interface TUserSignUp {
@@ -60,7 +61,7 @@ export interface TProtectedRoute {
 }
 
 export interface TPostUserDetails {
-  id: string;
+  _id: string;
   name: string;
 }
 
@@ -68,6 +69,7 @@ export interface TPostCard {
   title: string;
   body: string;
   id: string;
+  userId: TPostUserDetails;
   category: PostCategory;
   postCreator: string;
   createdAt: string;

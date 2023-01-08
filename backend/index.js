@@ -54,4 +54,4 @@ app.listen(port, () => {
 
 app.use(authRouter);
 app.use("/users", requireAuth, userRouter);
-app.use("/posts", requireAuth, postRouter);
+app.use("/posts", postRouter);

@@ -22,6 +22,7 @@ export const Home = () => {
     <div className="flex flex-col flex-wrap justify-center w-full items-center gap-10 max-w-3xl my-6">
       {postsData?.map((post: TGetAllPostsResponse) => (
         <PostCard
+          userId={post.userId}
           key={post._id}
           postCreator={post.userId.name}
           category={post.category}
