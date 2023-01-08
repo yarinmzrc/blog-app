@@ -4,11 +4,14 @@ import { SignUp } from "../pages/SignUp";
 import { ProtectedRoute } from "./PrivateRoute";
 import { PrivatePage } from "../pages/PrivatePage";
 import { NotFound } from "../pages/NotFound";
+import { Home } from "../pages/Home";
+import { Post } from "../pages/Post";
 
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<h1>Home Page</h1>} />
+      <Route path="/" element={<Home />} />
+      <Route path="/posts/:postId" element={<Post />} />
       <Route path="/login" element={<Login />} />
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="*" element={<NotFound />} />

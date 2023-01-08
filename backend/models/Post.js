@@ -12,6 +12,11 @@ const PostSchema = new Schema({
     type: String,
     required: [true, "The post body field is required"],
   },
+  category: {
+    type: String,
+    enum: ["PROGRAMMING", "DATA", "LIFESTYLE"],
+    required: [true, "The post category field is required"],
+  },
   createdAt: {
     type: Date,
     default: () => Date.now(),
@@ -20,12 +25,10 @@ const PostSchema = new Schema({
     type: Date,
     default: () => Date.now(),
   },
-  userId: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 // Create model for post

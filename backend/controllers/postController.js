@@ -2,7 +2,7 @@ import Post from "../models/Post.js";
 
 export const getAllPosts = async (req, res) => {
   try {
-    const allPosts = await Post.find();
+    const allPosts = await Post.find().populate("userId", "name");
     if (allPosts) {
       res.json(allPosts);
     }
@@ -11,12 +11,26 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
+export const getPostById = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await Post.findById(postId).populate("userId", "name");
+    if (post) {
+      res.json(post);
+    }
+  } catch (err) {
+    res.send(err.message);
+  }
+};
+
 export const addPost = async (req, res) => {
   try {
-    const { name, email } = req.body;
+    const { title, body, category, userId } = req.body;
     const post = await new Post({
-      name,
-      email,
+      title,
+      body,
+      category,
+      userId,
     });
     if (post) {
       const postToAdd = await post.save();

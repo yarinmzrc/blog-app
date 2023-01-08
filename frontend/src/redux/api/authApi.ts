@@ -4,6 +4,7 @@ import {
   BLOG_APP_LOCAL_STORAGE_PREFIX,
 } from "../../constants/constants";
 import {
+  TGetAllPostsResponse,
   TLoginUser,
   TRequireAuthResponse,
   TUserSignUp,
@@ -52,6 +53,12 @@ export const authApi = createApi({
     getUserDetailsByToken: builder.query<userState, void>({
       query: () => "users/get-user",
     }),
+    getAllPosts: builder.query<TGetAllPostsResponse[], void>({
+      query: () => "posts",
+    }),
+    getPost: builder.query<TGetAllPostsResponse, string>({
+      query: (postId: string) => `posts/${postId}`,
+    }),
   }),
 });
 
@@ -62,4 +69,6 @@ export const {
   useLoginMutation,
   useSignUpMutation,
   useGetUserDetailsByTokenQuery,
+  useGetAllPostsQuery,
+  useGetPostQuery,
 } = authApi;

@@ -1,4 +1,5 @@
 import { FormEvent, ReactNode } from "react";
+import { PostCategory } from "./constants";
 
 //components interfaces
 
@@ -39,6 +40,7 @@ export interface TUserSignUp {
 export interface userState {
   user: userInterface | null;
   token: string | null;
+  error: string | null;
 }
 
 export interface TLoginUser {
@@ -55,4 +57,28 @@ export interface TRequireAuthResponse {
 
 export interface TProtectedRoute {
   children?: ReactNode;
+}
+
+export interface TPostUserDetails {
+  id: string;
+  name: string;
+}
+
+export interface TPostCard {
+  title: string;
+  body: string;
+  id: string;
+  category: PostCategory;
+  postCreator: string;
+  createdAt: string;
+}
+
+export interface TGetAllPostsResponse {
+  _id: string;
+  body: string;
+  title: string;
+  category: PostCategory;
+  createdAt: string;
+  updatedAt: string;
+  userId: TPostUserDetails;
 }

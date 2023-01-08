@@ -1,7 +1,12 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
-import { selectAuth, setUser } from "../redux/features/authSlice";
+import {
+  clearError,
+  selectAuth,
+  setError,
+  setUser,
+} from "../redux/features/authSlice";
 import { useLoginMutation } from "../redux/api/authApi";
 import { Form } from "../components/Form";
 import { Input } from "../components/Input";
@@ -12,7 +17,6 @@ import { Button } from "../components/Button";
 export const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [login, { isLoading, data, isSuccess, error }] = useLoginMutation();
   const { user } = useAppSelector(selectAuth);
 
@@ -21,34 +25,30 @@ export const Login = () => {
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    try {
-      const loginResult = await login({ email, password });
-      if ("error" in loginResult) {
-        throw loginResult.error;
-      }
-    } catch (err) {
-      console.log({ err });
-    }
+    await login({ email, password });
   };
 
   useEffect(() => {
     if (isSuccess) {
       if (data?.token && data.user) {
         dispatch(setUser({ user: data?.user, token: data?.token }));
-        navigate("/dashboard");
+        navigate("/");
+        dispatch(clearError());
       }
     }
+    setEmail("");
+    setPassword("");
   }, [isSuccess]);
 
   useEffect(() => {
     if (user) {
-      navigate("/dashboard");
+      navigate("/");
     }
   }, [user]);
 
   useEffect(() => {
     if (error && "data" in error) {
-      setErrorMessage(error.data as string);
+      dispatch(setError({ error }));
     }
   }, [error]);
 
@@ -76,7 +76,6 @@ export const Login = () => {
             onChange={(e) => setPassword((e.target as HTMLInputElement).value)}
           />
         </div>
-        <p>{errorMessage}</p>
         <Button>{isLoading ? <Loader /> : "Submit"}</Button>
         <Link className="underline text-sm" to="/sign-up">
           Don&apos;t have an account? go to sign up.

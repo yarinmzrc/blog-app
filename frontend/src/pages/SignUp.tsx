@@ -6,6 +6,8 @@ import { Input } from "../components/Input";
 import { Label } from "../components/Label";
 import { Loader } from "../components/Loader";
 import { useSignUpMutation } from "../redux/api/authApi";
+import { setError } from "../redux/features/authSlice";
+import { useAppDispatch } from "../redux/hooks/hooks";
 
 export const SignUp = () => {
   const [name, setName] = useState("");
@@ -13,6 +15,7 @@ export const SignUp = () => {
   const [email, setEmail] = useState("");
   const [signUp, { isLoading, error, isSuccess }] = useSignUpMutation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleSignUp = async (e: FormEvent) => {
     e.preventDefault();
@@ -29,10 +32,13 @@ export const SignUp = () => {
     if (isSuccess) {
       navigate("/login");
     }
-    if (error) {
-      console.log(error);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (error && "data" in error) {
+      dispatch(setError({ error }));
     }
-  }, [isSuccess, error]);
+  }, [error]);
 
   return (
     <div className="p-10 flex flex-col justify-center items-center m-auto">
