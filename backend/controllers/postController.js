@@ -23,6 +23,20 @@ export const getPostById = async (req, res) => {
   }
 };
 
+export const getPostsByCategory = async (req, res) => {
+  try {
+    const { category } = req.params;
+    const posts = await Post.find({ category });
+    if (posts) {
+      res.json(posts);
+    } else {
+      console.log(posts);
+    }
+  } catch (err) {
+    res.send(err.message);
+  }
+};
+
 export const addPost = async (req, res) => {
   try {
     const { title, body, category, userId } = req.body;

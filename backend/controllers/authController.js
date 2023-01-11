@@ -16,9 +16,15 @@ export const signUpUser = async (req, res) => {
     const user = await User.create({ name, email, password });
     res.status(201).json({ user });
   } catch (err) {
-    res.send(err.message);
+    if (err.code === 11000) {
+      res.send(`${err.keyValue.email} already exists`);
+    } else {
+      res.send(err.message);
+    }
   }
 };
+
+//'E11000 duplicate key error collection: blog-app.users index: email_1 dup key: { email: "yarin@test.com" }'
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;

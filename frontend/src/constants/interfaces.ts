@@ -66,13 +66,7 @@ export interface TPostUserDetails {
 }
 
 export interface TPostCard {
-  title: string;
-  body: string;
-  id: string;
-  userId: TPostUserDetails;
-  category: PostCategory;
-  postCreator: string;
-  createdAt: string;
+  post: TGetAllPostsResponse;
 }
 
 export interface TGetAllPostsResponse {

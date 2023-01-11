@@ -7,3 +7,9 @@ export enum PostCategory {
   Data = "Data",
   Lifestyle = "Lifestyle",
 }
+
+export const postCategories = [
+  PostCategory.Programming,
+  PostCategory.Data,
+  PostCategory.Lifestyle,
+];

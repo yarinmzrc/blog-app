@@ -32,7 +32,7 @@ export const Navbar = () => {
   );
 
   return (
-    <div className="w-full bg-white sticky top-0 z-30 flex justify-between items-center p-8 px-10 mb-3 sm:px-40">
+    <div className="w-full bg-white sticky top-0 z-30 flex justify-between items-center p-8 px-10 sm:px-40">
       <Link to="/">
         <p className="text-2xl font-medium italic text-emerald-600 hover:text-emerald-700">
           Blogs.

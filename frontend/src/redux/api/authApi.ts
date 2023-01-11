@@ -59,6 +59,9 @@ export const authApi = createApi({
     getPost: builder.query<TGetAllPostsResponse, string>({
       query: (postId: string) => `posts/${postId}`,
     }),
+    getPostsByCategory: builder.query<TGetAllPostsResponse[], string>({
+      query: (category: string) => `posts/get-posts-by-category/${category}`,
+    }),
   }),
 });
 
@@ -71,4 +74,5 @@ export const {
   useGetUserDetailsByTokenQuery,
   useGetAllPostsQuery,
   useGetPostQuery,
+  useGetPostsByCategoryQuery,
 } = authApi;
