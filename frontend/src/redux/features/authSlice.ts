@@ -7,7 +7,7 @@ import type { RootState } from "../store/store";
 export const initialState: userState = {
   user: null,
   token: null,
-  error: null,
+  message: null,
 };
 
 export const authSlice = createSlice({
@@ -44,11 +44,11 @@ export const authSlice = createSlice({
       state.user = null;
       state.token = null;
     },
-    setError: (state, { payload: { error } }) => {
-      state.error = error.data;
+    setMessage: (state, { payload: message }) => {
+      state.message = message;
     },
-    clearError: (state) => {
-      state.error = null;
+    clearMessage: (state) => {
+      state.message = null;
     },
   },
   extraReducers: (builder) => {
@@ -62,7 +62,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUser, setCredentials, logOutUser, setError, clearError } =
+export const { setUser, setCredentials, logOutUser, setMessage, clearMessage } =
   authSlice.actions;
 
 export const selectAuth = (state: RootState) => state.auth;

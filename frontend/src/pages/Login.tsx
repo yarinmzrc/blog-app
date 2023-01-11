@@ -1,12 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
-import {
-  clearError,
-  selectAuth,
-  setError,
-  setUser,
-} from "../redux/features/authSlice";
+import { selectAuth, setMessage, setUser } from "../redux/features/authSlice";
 import { useLoginMutation } from "../redux/api/authApi";
 import { Form } from "../components/Form";
 import { Input } from "../components/Input";
@@ -32,8 +27,10 @@ export const Login = () => {
     if (isSuccess) {
       if (data?.token && data.user) {
         dispatch(setUser({ user: data?.user, token: data?.token }));
-        navigate("/");
-        dispatch(clearError());
+        navigate(-1);
+        dispatch(
+          setMessage({ data: "You logged in successfully", isError: false })
+        );
       }
     }
     setEmail("");
@@ -48,7 +45,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (error && "data" in error) {
-      dispatch(setError({ error }));
+      dispatch(setMessage({ data: error.data, isError: true }));
     }
   }, [error]);
 

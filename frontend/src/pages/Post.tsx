@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Loader } from "../components/Loader";
 import { useGetPostQuery } from "../redux/api/authApi";
-import { selectAuth, setError } from "../redux/features/authSlice";
+import { selectAuth, setMessage } from "../redux/features/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
 import { formatDate } from "../utils";
 
@@ -19,7 +19,7 @@ export const Post = () => {
 
   useEffect(() => {
     if (isError && error && "data" in error) {
-      dispatch(setError({ error }));
+      dispatch(setMessage({ data: error.data, isError: true }));
     }
   }, [error, isError]);
 

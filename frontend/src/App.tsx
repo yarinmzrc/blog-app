@@ -4,7 +4,7 @@ import { Footer } from "./components/Footer";
 import { AppRoutes } from "./routes";
 import { useAppDispatch, useAppSelector } from "./redux/hooks/hooks";
 import {
-  clearError,
+  clearMessage,
   logOutUser,
   selectAuth,
   setUser,
@@ -12,14 +12,15 @@ import {
 import { useGetUserDetailsByTokenQuery } from "./redux/api/authApi";
 import { useEffect } from "react";
 import { Loader } from "./components/Loader";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { PostCategories } from "./components/PostCategories";
 import { useLocation } from "react-router-dom";
+import { toastMessage } from "./utils";
 
 function App() {
   const dispatch = useAppDispatch();
-  const { error } = useAppSelector(selectAuth);
+  const { message } = useAppSelector(selectAuth);
   const { pathname } = useLocation();
   const { data, isSuccess, isLoading } = useGetUserDetailsByTokenQuery();
 
@@ -34,19 +35,15 @@ function App() {
   }, [isSuccess]);
 
   useEffect(() => {
-    if (error) {
-      toast.error(error, {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        progress: undefined,
-        theme: "light",
-      });
-      dispatch(clearError());
+    if (message) {
+      if (message.isError) {
+        toastMessage(message.data, true);
+      } else {
+        toastMessage(message.data, false);
+      }
     }
-  }, [error]);
+    dispatch(clearMessage());
+  }, [message]);
 
   const showCategories =
     pathname !== "/login" && pathname !== "/sign-up" ? <PostCategories /> : "";

@@ -38,10 +38,15 @@ export interface TUserSignUp {
   password: string;
 }
 
+export interface TMessage {
+  data: string;
+  isError: boolean;
+}
+
 export interface userState {
   user: userInterface | null;
   token: string | null;
-  error: string | null;
+  message: TMessage | null;
 }
 
 export interface TLoginUser {

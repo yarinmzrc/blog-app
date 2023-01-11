@@ -6,7 +6,7 @@ import { Input } from "../components/Input";
 import { Label } from "../components/Label";
 import { Loader } from "../components/Loader";
 import { useSignUpMutation } from "../redux/api/authApi";
-import { setError } from "../redux/features/authSlice";
+import { setMessage } from "../redux/features/authSlice";
 import { useAppDispatch } from "../redux/hooks/hooks";
 
 export const SignUp = () => {
@@ -36,7 +36,7 @@ export const SignUp = () => {
 
   useEffect(() => {
     if (error && "data" in error) {
-      dispatch(setError({ error }));
+      dispatch(setMessage({ data: error.data, isError: true }));
     }
   }, [error]);
 

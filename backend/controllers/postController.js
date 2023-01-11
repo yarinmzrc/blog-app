@@ -26,7 +26,7 @@ export const getPostById = async (req, res) => {
 export const getPostsByCategory = async (req, res) => {
   try {
     const { category } = req.params;
-    const posts = await Post.find({ category });
+    const posts = await Post.find({ category }).populate("userId", "name");
     if (posts) {
       res.json(posts);
     } else {

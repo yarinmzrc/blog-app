@@ -1,6 +1,10 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
-import { logOutUser, selectAuth } from "../redux/features/authSlice";
+import {
+  logOutUser,
+  selectAuth,
+  setMessage,
+} from "../redux/features/authSlice";
 
 export const Navbar = () => {
   const { user } = useAppSelector(selectAuth);
@@ -20,6 +24,9 @@ export const Navbar = () => {
   const handleLogOut = () => {
     dispatch(logOutUser());
     navigate("/");
+    dispatch(
+      setMessage({ data: "You signed out successfully", isError: false })
+    );
   };
 
   const userExistsInfo = (

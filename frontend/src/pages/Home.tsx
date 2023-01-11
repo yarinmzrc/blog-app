@@ -4,7 +4,7 @@ import { PostCard } from "../components/PostCard";
 import { PostContainer } from "../components/PostContainer";
 import { TGetAllPostsResponse } from "../constants/interfaces";
 import { useGetAllPostsQuery } from "../redux/api/authApi";
-import { setError } from "../redux/features/authSlice";
+import { setMessage } from "../redux/features/authSlice";
 import { useAppDispatch } from "../redux/hooks/hooks";
 
 export const Home = () => {
@@ -13,7 +13,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (isError && error && "data" in error) {
-      dispatch(setError({ error }));
+      dispatch(setMessage({ data: error.data, isError: true }));
     }
   }, [error, isError]);
 
