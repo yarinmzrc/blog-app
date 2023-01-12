@@ -8,6 +8,10 @@ const PostSchema = new Schema({
     type: String,
     required: [true, "The post title field is required"],
   },
+  image: {
+    type: String,
+    default: "",
+  },
   body: {
     type: String,
     required: [true, "The post body field is required"],

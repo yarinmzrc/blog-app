@@ -78,6 +78,7 @@ export interface TPostCard {
 export interface TGetAllPostsResponse {
   _id: string;
   body: string;
+  image: string;
   title: string;
   category: PostCategory;
   createdAt: string;

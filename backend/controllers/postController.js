@@ -39,10 +39,11 @@ export const getPostsByCategory = async (req, res) => {
 
 export const addPost = async (req, res) => {
   try {
-    const { title, body, category, userId } = req.body;
+    const { title, image, body, category, userId } = req.body;
     const post = await new Post({
       title,
       body,
+      image,
       category,
       userId,
     });

@@ -7,21 +7,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
 import { formatDate } from "../utils";
 import Modal from "react-modal";
 import { EditForm } from "../components/EditForm";
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    width: "750px",
-    height: "max-content",
-    background: "none",
-    border: "0",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
+import { modalCustomStyles } from "../constants/constants";
 
 export const Post = () => {
   const { postId } = useParams();
@@ -84,14 +70,14 @@ export const Post = () => {
       <h1 className="text-4xl font-bold">{post?.title}</h1>
       <img
         className="max-w-xl object-cover rounded-r-lg"
-        src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80"
+        src={post?.image}
         alt="blog post"
       />
       <section>{post?.body}</section>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
-        style={customStyles}
+        style={modalCustomStyles}
       >
         <EditForm
           handleEditForm={handleEditForm}

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { defaultImageSrc } from "../constants/constants";
 import { TPostCard } from "../constants/interfaces";
 import { formatDate } from "../utils";
 
@@ -21,10 +22,10 @@ export const PostCard = ({ post }: TPostCard) => {
       onClick={() => handleClickOnPost(_id)}
       className="flex flex-col rounded-lg shadow-md w-64 hover:scale-105 transition-all cursor-pointer"
     >
-      <div className="w-full overflow-hidden">
+      <div className="w-full h-40 overflow-hidden">
         <img
           className="w-full h-full object-cover rounded-t-lg"
-          src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80"
+          src={post.image || defaultImageSrc}
           alt="blog post"
         />
       </div>
