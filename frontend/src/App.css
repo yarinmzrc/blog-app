@@ -11,7 +11,7 @@
 
 #wave {
   position: absolute;
-  bottom: 160px;
+  bottom: 0;
   z-index: -2;
 }
 

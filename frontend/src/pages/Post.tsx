@@ -1,10 +1,27 @@
-import { useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Loader } from "../components/Loader";
-import { useGetPostQuery } from "../redux/api/authApi";
+import { useGetPostQuery } from "../redux/api/postApi";
 import { selectAuth, setMessage } from "../redux/features/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
 import { formatDate } from "../utils";
+import Modal from "react-modal";
+import { EditForm } from "../components/EditForm";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    width: "750px",
+    height: "max-content",
+    background: "none",
+    border: "0",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 
 export const Post = () => {
   const { postId } = useParams();
@@ -14,6 +31,11 @@ export const Post = () => {
     isError,
     error,
   } = useGetPostQuery(postId || "");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [editFormInfo, setEditFormInfo] = useState({
+    title: "",
+    body: "",
+  });
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectAuth);
 
@@ -22,6 +44,26 @@ export const Post = () => {
       dispatch(setMessage({ data: error.data, isError: true }));
     }
   }, [error, isError]);
+
+  useEffect(() => {
+    if (post) {
+      setEditFormInfo({ ...editFormInfo, title: post.title, body: post.body });
+    }
+  }, [post]);
+
+  const handleEditForm = (
+    e: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+    id: string
+  ) => {
+    setEditFormInfo({
+      ...editFormInfo,
+      [id]: (e.target as HTMLInputElement | HTMLTextAreaElement).value,
+    });
+  };
+
+  const handleSendEdit = () => {
+    console.log("");
+  };
 
   return isLoading ? (
     <Loader />
@@ -33,7 +75,11 @@ export const Post = () => {
           <p>{post?.category}</p>
           <p>{formatDate(post?.createdAt || "")}</p>
         </div>
-        {user && user._id === post?.userId._id ? <button>Edit</button> : ""}
+        {user && user._id === post?.userId._id ? (
+          <button onClick={() => setModalIsOpen(true)}>Edit</button>
+        ) : (
+          ""
+        )}
       </div>
       <h1 className="text-4xl font-bold">{post?.title}</h1>
       <img
@@ -42,6 +88,18 @@ export const Post = () => {
         alt="blog post"
       />
       <section>{post?.body}</section>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        style={customStyles}
+      >
+        <EditForm
+          handleEditForm={handleEditForm}
+          handleSendEdit={handleSendEdit}
+          isLoading={isLoading}
+          editFormInfo={editFormInfo}
+        />
+      </Modal>
     </div>
   );
 };

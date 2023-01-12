@@ -3,7 +3,7 @@ import { Loader } from "../components/Loader";
 import { PostCard } from "../components/PostCard";
 import { PostContainer } from "../components/PostContainer";
 import { TGetAllPostsResponse } from "../constants/interfaces";
-import { useGetAllPostsQuery } from "../redux/api/authApi";
+import { useGetAllPostsQuery } from "../redux/api/postApi";
 import { setMessage } from "../redux/features/authSlice";
 import { useAppDispatch } from "../redux/hooks/hooks";
 

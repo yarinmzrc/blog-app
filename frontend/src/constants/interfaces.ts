@@ -6,6 +6,7 @@ import { PostCategory } from "./constants";
 export interface TForm {
   handleOnSubmit: (e: FormEvent) => void;
   children: ReactNode;
+  styles?: string;
 }
 
 export interface TInput {

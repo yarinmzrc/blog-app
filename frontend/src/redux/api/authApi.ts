@@ -4,7 +4,6 @@ import {
   BLOG_APP_LOCAL_STORAGE_PREFIX,
 } from "../../constants/constants";
 import {
-  TGetAllPostsResponse,
   TLoginUser,
   TRequireAuthResponse,
   TUserSignUp,
@@ -35,32 +34,23 @@ export const authApi = createApi({
   endpoints: (builder) => ({
     login: builder.mutation<userState, TLoginUser>({
       query: (credentials) => ({
-        url: "login",
+        url: "/login",
         method: "POST",
         body: credentials,
       }),
     }),
     signUp: builder.mutation<TRequireAuthResponse, TUserSignUp>({
       query: (credentials) => ({
-        url: "sign-up",
+        url: "/sign-up",
         method: "POST",
         body: credentials,
       }),
     }),
     requireUserAuth: builder.query<userState, void>({
-      query: () => "auth",
+      query: () => "/auth",
     }),
     getUserDetailsByToken: builder.query<userState, void>({
-      query: () => "users/get-user",
-    }),
-    getAllPosts: builder.query<TGetAllPostsResponse[], void>({
-      query: () => "posts",
-    }),
-    getPost: builder.query<TGetAllPostsResponse, string>({
-      query: (postId: string) => `posts/${postId}`,
-    }),
-    getPostsByCategory: builder.query<TGetAllPostsResponse[], string>({
-      query: (category: string) => `posts/get-posts-by-category/${category}`,
+      query: () => "/users/get-user",
     }),
   }),
 });
@@ -72,7 +62,4 @@ export const {
   useLoginMutation,
   useSignUpMutation,
   useGetUserDetailsByTokenQuery,
-  useGetAllPostsQuery,
-  useGetPostQuery,
-  useGetPostsByCategoryQuery,
 } = authApi;

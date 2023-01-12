@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { Loader } from "../components/Loader";
 import { PostCard } from "../components/PostCard";
 import { PostContainer } from "../components/PostContainer";
-import { useGetPostsByCategoryQuery } from "../redux/api/authApi";
+import { TGetAllPostsResponse } from "../constants/interfaces";
+import { useGetPostsByCategoryQuery } from "../redux/api/postApi";
 import { setMessage } from "../redux/features/authSlice";
 import { useAppDispatch } from "../redux/hooks/hooks";
 
@@ -27,7 +28,7 @@ export const Category = () => {
 
   return (
     <PostContainer title={category}>
-      {posts?.map((post) => (
+      {posts?.map((post: TGetAllPostsResponse) => (
         <PostCard key={post._id} post={post} />
       ))}
     </PostContainer>
