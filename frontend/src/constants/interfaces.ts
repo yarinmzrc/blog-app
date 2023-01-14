@@ -18,6 +18,8 @@ export interface TInput {
 }
 
 export interface TButton {
+  typeBtn: string | null;
+  handleClick?: () => void;
   children: ReactNode;
 }
 

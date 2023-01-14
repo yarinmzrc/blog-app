@@ -73,7 +73,7 @@ export const Login = () => {
             onChange={(e) => setPassword((e.target as HTMLInputElement).value)}
           />
         </div>
-        <Button>{isLoading ? <Loader /> : "Submit"}</Button>
+        <Button typeBtn="submit">{isLoading ? <Loader /> : "Submit"}</Button>
         <Link className="underline text-sm" to="/sign-up">
           Don&apos;t have an account? go to sign up.
         </Link>

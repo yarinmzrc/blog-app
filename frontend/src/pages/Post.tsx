@@ -8,6 +8,7 @@ import { formatDate } from "../utils";
 import Modal from "react-modal";
 import { EditForm } from "../components/EditForm";
 import { defaultImageSrc, modalCustomStyles } from "../constants/constants";
+import { Button } from "../components/Button";
 
 export const Post = () => {
   const { postId } = useParams();
@@ -17,8 +18,7 @@ export const Post = () => {
     isError,
     error,
   } = useGetPostQuery(postId || "");
-  const [updatePost, { isLoading: isEditing, data: editData }] =
-    useUpdatePostMutation();
+  const [updatePost, { isLoading: isEditing }] = useUpdatePostMutation();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editFormInfo, setEditFormInfo] = useState({
     title: "",
@@ -64,30 +64,34 @@ export const Post = () => {
           postId,
         }).unwrap();
         setModalIsOpen(false);
-        console.log(editData);
       }
     } catch (err) {
       console.log(err);
     }
   };
 
+  const setEditButtonIfUser =
+    user && user._id === post?.userId._id ? (
+      <Button typeBtn="" handleClick={() => setModalIsOpen(true)}>
+        Edit
+      </Button>
+    ) : (
+      ""
+    );
+
   return isLoading || isEditing ? (
     <Loader />
   ) : (
-    <div className="w-full h-full flex flex-col gap-10 py-10 px-40">
-      <div className="flex justify-between">
-        <div className="flex gap-8">
-          <p>{post?.userId.name}</p>
-          <p>{post?.category}</p>
-          <p>{formatDate(post?.createdAt || "")}</p>
-        </div>
-        {user && user._id === post?.userId._id ? (
-          <button onClick={() => setModalIsOpen(true)}>Edit</button>
-        ) : (
-          ""
-        )}
+    <div className="w-full h-full flex flex-col gap-8 py-10 px-40">
+      <div className="flex justify-between items-center">
+        <h1 className="text-4xl font-bold">{post?.title}</h1>
+        {setEditButtonIfUser}
       </div>
-      <h1 className="text-4xl font-bold">{post?.title}</h1>
+      <div className="flex gap-8 text-sm text-gray-500">
+        <p>{post?.userId.name}</p>
+        <p>{post?.category}</p>
+        <p>{formatDate(post?.createdAt || "")}</p>
+      </div>
       <img
         className="max-w-xl object-cover rounded-r-lg"
         src={post?.image || defaultImageSrc}

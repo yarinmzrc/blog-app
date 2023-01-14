@@ -24,7 +24,6 @@ export const EditForm = ({
 }: EditFormProps) => {
   return (
     <Form styles="w-full h-full p-6" handleOnSubmit={handleSendEdit}>
-      <h2 className="text-2xl font-medium text-emerald-700">Edit</h2>
       <div className="flex flex-col w-full gap-1">
         <Label htmlFor="title">Title</Label>
         <Input
@@ -56,7 +55,7 @@ export const EditForm = ({
           onChange={(e) => handleEditForm(e, "title")}
         />
       </div>
-      <Button>{isLoading ? <Loader /> : "Submit"}</Button>
+      <Button typeBtn="submit">{isLoading ? <Loader /> : "Submit"}</Button>
     </Form>
   );
 };
