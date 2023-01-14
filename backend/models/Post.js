@@ -26,7 +26,7 @@ const PostSchema = new Schema({
     type: Date,
     default: () => Date.now(),
   },
-  UpdatedAt: {
+  updatedAt: {
     type: Date,
     default: () => Date.now(),
   },

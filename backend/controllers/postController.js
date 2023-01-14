@@ -58,6 +58,25 @@ export const addPost = async (req, res) => {
   }
 };
 
+export const updatePost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { title, body, image } = req.body;
+    const postToUpdate = await Post.findByIdAndUpdate(
+      postId,
+      { title, body, image, updatedAt: Date.now() },
+      {
+        new: true,
+      }
+    );
+    if (postToUpdate) {
+      res.json(postToUpdate);
+    }
+  } catch (err) {
+    res.send(err.message);
+  }
+};
+
 export const deletePost = async (req, res) => {
   try {
     const { postId } = req.params;

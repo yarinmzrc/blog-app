@@ -18,3 +18,15 @@
 .info-container {
   padding: 0 160px;
 }
+
+@media only screen and (max-width: 1280px) {
+  .info-container {
+    padding: 0 80px;
+  }
+}
+
+@media only screen and (max-width: 715px) {
+  .info-container {
+    padding: 0 40px;
+  }
+}

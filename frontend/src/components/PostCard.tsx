@@ -20,7 +20,7 @@ export const PostCard = ({ post }: TPostCard) => {
   return (
     <div
       onClick={() => handleClickOnPost(_id)}
-      className="flex flex-col rounded-lg shadow-md w-64 hover:scale-105 transition-all cursor-pointer"
+      className="flex flex-col rounded-lg shadow-md w-96 sm:w-64 hover:scale-105 transition-all cursor-pointer"
     >
       <div className="w-full h-40 overflow-hidden">
         <img

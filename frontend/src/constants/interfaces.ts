@@ -85,3 +85,13 @@ export interface TGetAllPostsResponse {
   updatedAt: string;
   userId: TPostUserDetails;
 }
+
+export interface TEditFormInfo {
+  title: string;
+  body: string;
+  image: string;
+}
+
+export interface TEditPostQuery extends TEditFormInfo {
+  postId: string;
+}

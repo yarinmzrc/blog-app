@@ -1,14 +1,10 @@
 import { FormEvent } from "react";
 import { Form } from "../components/Form";
+import { TEditFormInfo } from "../constants/interfaces";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { Label } from "./Label";
 import { Loader } from "./Loader";
-
-interface TEditFormInfo {
-  title: string;
-  body: string;
-}
 
 interface EditFormProps {
   editFormInfo: TEditFormInfo;
@@ -16,7 +12,7 @@ interface EditFormProps {
     e: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
     id: string
   ) => void;
-  handleSendEdit: () => void;
+  handleSendEdit: (e: FormEvent) => void;
   isLoading: boolean;
 }
 
@@ -36,6 +32,16 @@ export const EditForm = ({
           id="title"
           placeholder="Title"
           value={editFormInfo.title || ""}
+          onChange={(e) => handleEditForm(e, "title")}
+        />
+      </div>
+      <div className="flex flex-col w-full gap-1">
+        <Label htmlFor="title">Image</Label>
+        <Input
+          type="title"
+          id="title"
+          placeholder="Title"
+          value={editFormInfo.image || ""}
           onChange={(e) => handleEditForm(e, "title")}
         />
       </div>

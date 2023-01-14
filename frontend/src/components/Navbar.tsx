@@ -5,6 +5,7 @@ import {
   selectAuth,
   setMessage,
 } from "../redux/features/authSlice";
+import "../App.css";
 
 export const Navbar = () => {
   const { user } = useAppSelector(selectAuth);
@@ -39,7 +40,7 @@ export const Navbar = () => {
   );
 
   return (
-    <div className="w-full bg-white sticky top-0 z-30 flex justify-between items-center p-8 px-10 sm:px-40">
+    <div className="nav-media-padding w-full bg-white sticky top-0 z-30 flex justify-between items-center p-8 px-10 md:px-20 xl:px-40">
       <Link to="/">
         <p className="text-2xl font-medium italic text-emerald-600 hover:text-emerald-700">
           Blogs.
