@@ -4,8 +4,11 @@ import {
   LOCAL_BASE_URL,
 } from "../../constants/constants";
 import {
+  TAddComment,
+  TComment,
   TEditPostQuery,
-  TGetAllPostsResponse,
+  TGetPostResponse,
+  TPost,
 } from "../../constants/interfaces";
 import { RootState } from "../store/store";
 
@@ -30,7 +33,7 @@ export const postApi = createApi({
   }),
   tagTypes: ["Posts"],
   endpoints: (builder) => ({
-    getAllPosts: builder.query<TGetAllPostsResponse[], void>({
+    getAllPosts: builder.query<TPost[], void>({
       query: () => "/",
       providesTags: (result = []) =>
         result
@@ -40,16 +43,27 @@ export const postApi = createApi({
             ]
           : [{ type: "Posts", id: "LIST" }],
     }),
-    getPost: builder.query<TGetAllPostsResponse, string>({
+    getPost: builder.query<TGetPostResponse, string>({
       query: (postId: string) => `/${postId}`,
       providesTags: (arg) => [{ type: "Posts", _id: arg }],
     }),
-    getPostsByCategory: builder.query<TGetAllPostsResponse[], string>({
+    getPostsByCategory: builder.query<TPost[], string>({
       query: (category: string) => `/get-posts-by-category/${category}`,
     }),
-    updatePost: builder.mutation<TGetAllPostsResponse, TEditPostQuery>({
+    getPostsByUserId: builder.query<TPost[], string>({
+      query: (userId: string) => `/get-posts-by-user-id/${userId}`,
+    }),
+    updatePost: builder.mutation<TPost, TEditPostQuery>({
       query: (credentials) => ({
         url: `/edit/${credentials.postId}`,
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: ["Posts"],
+    }),
+    addComment: builder.mutation<TComment, TAddComment>({
+      query: (credentials) => ({
+        url: `/add-comment/${credentials.userId}/${credentials.postId}`,
         method: "POST",
         body: credentials,
       }),
@@ -63,4 +77,6 @@ export const {
   useGetAllPostsQuery,
   useGetPostQuery,
   useUpdatePostMutation,
+  useGetPostsByUserIdQuery,
+  useAddCommentMutation,
 } = postApi;

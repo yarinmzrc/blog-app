@@ -19,7 +19,7 @@ export interface TInput {
 
 export interface TButton {
   typeBtn: string | null;
-  handleClick?: () => void;
+  handleClick?: (e: FormEvent) => void;
   children: ReactNode;
 }
 
@@ -74,10 +74,29 @@ export interface TPostUserDetails {
 }
 
 export interface TPostCard {
-  post: TGetAllPostsResponse;
+  post: TPost;
 }
 
-export interface TGetAllPostsResponse {
+export interface TComment {
+  _id: string;
+  text: string;
+  createdAt: string;
+  userId: TPostUserDetails;
+  postId: string;
+}
+
+export interface TAddComment {
+  postId: string;
+  userId: string;
+  text: string;
+}
+
+export interface TGetPostResponse {
+  post: TPost;
+  comments: TComment[];
+}
+
+export interface TPost {
   _id: string;
   body: string;
   image: string;

@@ -7,6 +7,7 @@ import { NotFound } from "../pages/NotFound";
 import { Home } from "../pages/Home";
 import { Post } from "../pages/Post";
 import { Category } from "../pages/Category";
+import { MyPosts } from "../pages/MyPosts";
 
 export const AppRoutes = () => {
   return (
@@ -14,6 +15,7 @@ export const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/posts/:postId" element={<Post />} />
       <Route path="/posts/category/:category" element={<Category />} />
+      <Route path="/posts/get-posts-by-user-id/:userId" element={<MyPosts />} />
       <Route path="/login" element={<Login />} />
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="*" element={<NotFound />} />

@@ -32,7 +32,9 @@ export const Navbar = () => {
 
   const userExistsInfo = (
     <div className="flex gap-x-6">
-      <p className="text-emerald-500">{user?.name}</p>
+      <Link to={`/posts/get-posts-by-user-id/${user?._id || ""}`}>
+        <p className="text-emerald-500">{user?.name}</p>
+      </Link>
       <button className="hover:text-emerald-600" onClick={handleLogOut}>
         Logout
       </button>

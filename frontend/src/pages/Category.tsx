@@ -26,6 +26,8 @@ export const Category = () => {
 
   if (isLoading) return <Loader />;
 
+  if (posts?.length === 0) return <h1>Sorry, this category has no posts.</h1>;
+
   return (
     <PostContainer title={category}>
       {posts?.map((post: TGetAllPostsResponse) => (

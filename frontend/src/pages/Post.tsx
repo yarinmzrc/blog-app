@@ -1,32 +1,33 @@
 import { FormEvent, useEffect, useState } from "react";
+import Modal from "react-modal";
 import { useParams } from "react-router-dom";
-import { Loader } from "../components/Loader";
-import { useGetPostQuery, useUpdatePostMutation } from "../redux/api/postApi";
 import { selectAuth, setMessage } from "../redux/features/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
 import { formatDate } from "../utils";
-import Modal from "react-modal";
-import { EditForm } from "../components/EditForm";
 import { defaultImageSrc, modalCustomStyles } from "../constants/constants";
-import { Button } from "../components/Button";
+import { Comment, Button, EditForm, Loader } from "../components";
+import {
+  useAddCommentMutation,
+  useGetPostQuery,
+  useUpdatePostMutation,
+} from "../redux/api/postApi";
+
+const defaultEditForm = {
+  title: "",
+  body: "",
+  image: "",
+};
 
 export const Post = () => {
   const { postId } = useParams();
-  const {
-    isLoading,
-    data: post,
-    isError,
-    error,
-  } = useGetPostQuery(postId || "");
-  const [updatePost, { isLoading: isEditing }] = useUpdatePostMutation();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [editFormInfo, setEditFormInfo] = useState({
-    title: "",
-    body: "",
-    image: "",
-  });
-  const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectAuth);
+  const dispatch = useAppDispatch();
+  const { isLoading, data, isError, error } = useGetPostQuery(postId || "");
+  const [updatePost, { isLoading: isEditing }] = useUpdatePostMutation();
+  const [addComment, { isLoading: isAddingComment }] = useAddCommentMutation();
+  const [comment, setComment] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [editFormInfo, setEditFormInfo] = useState(defaultEditForm);
 
   useEffect(() => {
     if (isError && error && "data" in error) {
@@ -35,15 +36,16 @@ export const Post = () => {
   }, [error, isError]);
 
   useEffect(() => {
-    if (post) {
+    if (data) {
+      const { title, body, image } = data.post;
       setEditFormInfo({
         ...editFormInfo,
-        title: post.title,
-        body: post.body,
-        image: post.image,
+        title,
+        body,
+        image,
       });
     }
-  }, [post]);
+  }, [data]);
 
   const handleEditForm = (
     e: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -70,8 +72,24 @@ export const Post = () => {
     }
   };
 
+  const handleAddComment = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      if (postId) {
+        await addComment({
+          text: comment,
+          postId,
+          userId: user?._id || "",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setComment("");
+  };
+
   const setEditButtonIfUser =
-    user && user._id === post?.userId._id ? (
+    user && user._id === data?.post?.userId._id ? (
       <Button typeBtn="" handleClick={() => setModalIsOpen(true)}>
         Edit
       </Button>
@@ -84,20 +102,42 @@ export const Post = () => {
   ) : (
     <div className="w-full h-full flex flex-col gap-8 py-10 px-40">
       <div className="flex justify-between items-center">
-        <h1 className="text-4xl font-bold">{post?.title}</h1>
+        <h1 className="text-4xl font-bold">{data?.post?.title}</h1>
         {setEditButtonIfUser}
       </div>
       <div className="flex gap-8 text-sm text-gray-500">
-        <p>{post?.userId.name}</p>
-        <p>{post?.category}</p>
-        <p>{formatDate(post?.createdAt || "")}</p>
+        <p>{data?.post?.userId.name}</p>
+        <p>{data?.post?.category}</p>
+        <p>{formatDate(data?.post?.createdAt || "")}</p>
       </div>
       <img
         className="max-w-xl object-cover rounded-r-lg"
-        src={post?.image || defaultImageSrc}
+        src={data?.post?.image || defaultImageSrc}
         alt="blog post"
       />
-      <section>{post?.body}</section>
+      <section className="leading-loose">{data?.post?.body}</section>
+      <section>
+        <h2 className="text-lg font-bold">Comments</h2>
+        <div className="p-6">
+          <h3>Leave a comment</h3>
+          <form onSubmit={handleAddComment}>
+            <input
+              value={comment}
+              placeholder="Comment"
+              className="bg-white border text-gray-500 tracking-wide text-sm rounded-xl p-3 w-full !outline-none"
+              type="text"
+              id=""
+              onChange={(e) => setComment((e.target as HTMLInputElement).value)}
+            />
+            <Button typeBtn="submit">Submit</Button>
+          </form>
+        </div>
+        <div className="flex flex-col gap-4 mt-3">
+          {data?.comments.map((comment) => (
+            <Comment {...comment} key={comment._id} />
+          ))}
+        </div>
+      </section>
       <Modal
         isOpen={modalIsOpen}
         ariaHideApp={false}
